@@ -1,5 +1,8 @@
 from fastapi import FastAPI
+<<<<<<< HEAD
 
+=======
+>>>>>>> WsG
 app = FastAPI()
 
 @app.get("/")
