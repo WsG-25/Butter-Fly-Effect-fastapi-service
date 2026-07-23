@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 #Creating a class instance for fastapi
+
 app = FastAPI()
 
 #Creating a root route
