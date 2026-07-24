@@ -6,11 +6,9 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(DeclarativeBase):
       pass
 
-DATABASE_URL = (
-    
-)
+DATABASE_URL = ("postgresql://postgres:root@localhost:5432/Butterfly-effect")
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine("postgresql://postgres:root@localhost:5432/Butterfly-effect")
 
 SessionLocal = sessionmaker(
     autoflush=False,
