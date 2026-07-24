@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://127.0.0.1:8000/hello/Pooja
+description: ""
+url: http://127.0.0.1:8000/hello/Pooja
+method: GET
+order: 3840830717020509

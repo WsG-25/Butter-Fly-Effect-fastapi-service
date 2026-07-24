@@ -1,0 +1,8 @@
+$kind: http-request
+name: http://127.0.0.1:8000/products/search
+description: ""
+url: http://127.0.0.1:8000/products/search?name=Basil Plant
+method: GET
+queryParams:
+  name: Basil Plant
+order: 2785632273024269

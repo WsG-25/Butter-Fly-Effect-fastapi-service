@@ -1,0 +1,21 @@
+$kind: http-request
+name: http://127.0.0.1:8000/products/
+description: ""
+url: http://127.0.0.1:8000/products/
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\":\"Potting Soil\",\r
+
+    \  \"unit\":\"bag\",\r
+
+    \  \"cost_per_unit\":4.50,\r
+
+    \  \"price_per_unit\":8.99,\r
+
+    \  \"quantity_in_stock\":25\r
+
+    }"
+order: 1412839844991598
