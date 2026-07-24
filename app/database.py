@@ -1,20 +1,15 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-class Base(DeclarativeBase):
-      pass
 
-DATABASE_URL = ("postgresql://postgres:root@localhost:5432/Butterfly-effect")
+DATABASE_URL = "postgresql+psycopg2://postgres:root@localhost:5433/Butterfly-effect"
 
-# Create the database engine
 engine = create_engine(DATABASE_URL)
 
-# Create database sessions
 SessionLocal = sessionmaker(
-    autoflush=False,
     autocommit=False,
+    autoflush=False,
     bind=engine
 )
 
-# Base class for all models
-Base = DeclarativeBase()
+Base = declarative_base()
