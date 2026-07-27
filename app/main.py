@@ -15,6 +15,10 @@ def root():
 #This route will take a name as a parameter and return a message with the name
 
 
+#Creating a hello route
+#This route will take a name as a parameter and return a message with the name
+
+
 @app.get("/hello/{name}")
 def hello(name: str):
     return {"message": f"Hello, {name}!"}
