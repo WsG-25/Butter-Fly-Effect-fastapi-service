@@ -1,7 +1,11 @@
 from pydantic import BaseModel, Field
 
 
+<<<<<<< HEAD
 class ProductBase(BaseModel):
+=======
+class ProductCreate(BaseModel):
+>>>>>>> a205e10bcd6499af068ac824a35739a45d8771d9
     id : int
     name: str
     unit: str
