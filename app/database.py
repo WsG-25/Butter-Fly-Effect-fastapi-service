@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 
-DATABASE_URL = "postgresql+psycopg2://postgres:root@localhost:5433/Butterfly-effect"
+DATABASE_URL = "postgresql+psycopg2://postgres:root@localhost:5432/Butterfly-effect"
 
 engine = create_engine(DATABASE_URL)
 
@@ -13,3 +13,11 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()

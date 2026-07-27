@@ -1,8 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.database import Base, SessionLocal, engine
+from app.database import Base, SessionLocal, engine, get_db
 from app.models.product import Product
 
 
@@ -10,7 +10,6 @@ app = FastAPI()
 
 # DAY 3 - CREATE/DROP DATABASE TABLES
 
-Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 
@@ -43,3 +42,14 @@ def db_check():
 
     finally:
         db.close()
+
+@app.get("/products/{product_id}")
+def get_product(product_id: int, db: Session = Depends(get_db)):
+
+        product = (
+    db.query(Product)
+      .filter(Product.id == product_id)
+      .first()
+    )
+
+        return product
