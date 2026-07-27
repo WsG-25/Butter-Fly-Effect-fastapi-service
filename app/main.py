@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 
 from sqlalchemy.orm import Session
-<<<<<<< HEAD
 
 
 from app.database import (
@@ -21,11 +20,6 @@ from app.schemas.product import (
 )
 
 
-=======
-from app.database import Base, SessionLocal, engine, get_db
-from app.models.product import Product
-from app.schemas.product import ProductCreate
->>>>>>> a205e10bcd6499af068ac824a35739a45d8771d9
 
 app = FastAPI()
 
@@ -48,15 +42,7 @@ Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def root():
-<<<<<<< HEAD
-
-    return {
-        "message": "Garden Center API Running"
-    }
-
-=======
     return {"message": "Welcome to the Butterfly Garden"}
->>>>>>> a205e10bcd6499af068ac824a35739a45d8771d9
 
 
 @app.get("/hello/{name}")
@@ -113,31 +99,6 @@ def db_check(
         "products_in_database": count
     }
 
-<<<<<<< HEAD
-=======
-@app.post("/product")
-def create_product(product: ProductCreate, db: Session = Depends(get_db)):
-
-    new_product = Product(
-        id=product.id,
-        name=product.name,
-        price=product.price,
-        cost=product.cost,
-        quantity=product.quantity
-    )
-
-    db.add(new_product)
-    db.commit()
-    db.refresh(new_product)
-
-    return new_product
-
-@app.get("/product/{product_id}")
-def get_product(product_id: int, db: Session = Depends(get_db)):
->>>>>>> a205e10bcd6499af068ac824a35739a45d8771d9
-
-
-
 
 # ==================================================
 # Day 4 REAL CRUD USING POSTGRES
@@ -171,7 +132,7 @@ def create_product(
     )
         
         if product is None:
-         return {"Message": "Product not found"}
+            return {"Message": "Product not found"}
 
 
     db.add(new_product)
