@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 
-class Product(BaseModel):
+class ProductCreate(BaseModel):
     id : int
     name: str
     unit: str

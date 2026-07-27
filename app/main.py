@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-
 from app.database import Base, SessionLocal, engine, get_db
 from app.models.product import Product
-
+from app.schemas.product import ProductCreate
 
 app = FastAPI()
 
@@ -17,7 +16,7 @@ Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def root():
-    return {"message": "Hello World"}
+    return {"message": "Welcome to the Butterfly Garden"}
 
 
 @app.get("/hello/{name}")
@@ -43,7 +42,24 @@ def db_check():
     finally:
         db.close()
 
-@app.get("/products/{product_id}")
+@app.post("/product")
+def create_product(product: ProductCreate, db: Session = Depends(get_db)):
+
+    new_product = Product(
+        id=product.id,
+        name=product.name,
+        price=product.price,
+        cost=product.cost,
+        quantity=product.quantity
+    )
+
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+
+    return new_product
+
+@app.get("/product/{product_id}")
 def get_product(product_id: int, db: Session = Depends(get_db)):
 
         product = (
@@ -51,5 +67,8 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
       .filter(Product.id == product_id)
       .first()
     )
+        
+        if product is None:
+         return {"Message": "Product not found"}
 
         return product
