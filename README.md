@@ -330,8 +330,6 @@ This module centralizes the database configuration so every part of the applicat
 
 ---
 
-<<<<<<< HEAD
-=======
 # Request Flow
 
 When a client sends a request to create or retrieve a product, the application follows this sequence:
@@ -347,7 +345,6 @@ This separation of responsibilities keeps validation, database access, and API r
 
 ---
 
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 # Development Database Strategy
 
 During development, the application automatically rebuilds the database schema every time it starts.
