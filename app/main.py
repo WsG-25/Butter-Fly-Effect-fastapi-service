@@ -130,9 +130,6 @@ def create_product(
 
         quantity_in_stock = product.quantity_in_stock
     )
-        
-        if product is None:
-            return {"Message": "Product not found"}
 
 
     db.add(new_product)
