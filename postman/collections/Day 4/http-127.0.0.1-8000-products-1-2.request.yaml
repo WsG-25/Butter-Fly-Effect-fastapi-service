@@ -1,15 +1,15 @@
 $kind: http-request
-name: http://127.0.0.1:8000/products/
+name: http://127.0.0.1:8000/products/1
 description: ""
-url: http://127.0.0.1:8000/products/
-method: POST
+url: http://127.0.0.1:8000/products/1
+method: PUT
 body:
   type: json
   content: "{\r
 
     \    \"id\": 1,\r
 
-    \    \"name\":\"Basil Plant\",\r
+    \    \"name\":\"Rose Plant\",\r
 
     \    \"unit\":\"each\",\r
 
@@ -20,4 +20,4 @@ body:
     \    \"quantity_in_stock\":40\r
 
     }"
-order: 1785169014721
+order: 4501600907869475

@@ -10,7 +10,7 @@ class Product(Base):
 
     name: Mapped[str] = mapped_column(String, nullable=False)
 
-    unit: Mapped[int] = mapped_column(Integer, nullable=False)
+    unit: Mapped[str] = mapped_column(String, nullable=False)
 
     cost_per_unit: Mapped[float] = mapped_column(Float, nullable=False)
 
