@@ -4,19 +4,12 @@
 
 Butter-Fly-Effect is a FastAPI web service developed as part of our training. The project simulates a garden center inventory system where users can create, view, search, and manage products.
 
-<<<<<<< HEAD
-The project was completed in three phases:
-=======
 The project was completed in four phases:
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 
 - **Day 1:** Built the FastAPI application and created basic API endpoints.
 - **Day 2:** Added Pydantic models, request validation, and in-memory product storage.
 - **Day 3:** Connected the application to a PostgreSQL database using SQLAlchemy, replacing the in-memory storage with a persistent database.
-<<<<<<< HEAD
-=======
 - **Day 4:** Implemented Create and Read (CRUD) functionality using SQLAlchemy sessions and PostgreSQL, allowing products to be created, viewed individually, and retrieved from the database.
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 
 ---
 
@@ -153,33 +146,6 @@ uvicorn garden_center.main:app --reload
 
 ---
 
-<<<<<<< HEAD
-# Product Schema
-
-| Field | Type | Validation |
-|------|------|------------|
-| name | String | Required |
-| unit | String | Required |
-| cost_per_unit | Float | Greater than 0 |
-| price_per_unit | Float | Greater than 0 |
-| quantity_in_stock | Float | Greater than or equal to 0 |
-
----
-
-# API Endpoints
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | `/` | Returns a welcome message |
-| GET | `/hello/{name}` | Returns a personalized greeting |
-| POST | `/products` | Creates a new product |
-| GET | `/products` | Returns all products |
-| GET | `/products/search` | Searches for a product by name and unit |
-| GET | `/db-check` | Verifies the database connection and returns the current product count |
-
----
-
-=======
 ## Day 4
 
 - Implemented Create and Read CRUD operations using PostgreSQL.
@@ -217,7 +183,6 @@ uvicorn garden_center.main:app --reload
 | GET | `/db-check` | Verifies the database connection and returns the current product count |
 ---
 
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 # Example Product Request
 
 ```json
@@ -232,15 +197,9 @@ uvicorn garden_center.main:app --reload
 
 ---
 
-<<<<<<< HEAD
-# Validation
-
-The application uses **Pydantic** to validate incoming request data.
-=======
 # # Validation
 
 The application uses **Pydantic** to validate incoming request data before it reaches the route functions.
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 
 Validation rules include:
 
@@ -250,11 +209,7 @@ Validation rules include:
 - Required fields must be present.
 - Data types must match the schema.
 
-<<<<<<< HEAD
-If validation fails, the API returns:
-=======
 If validation fails, FastAPI automatically returns:
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 
 ```
 422 Unprocessable Entity
@@ -262,13 +217,6 @@ If validation fails, FastAPI automatically returns:
 
 ---
 
-<<<<<<< HEAD
-# Database Storage
-
-Starting on **Day 3**, products are stored in a PostgreSQL database instead of an in-memory Python list.
-
-Unlike Day 2, data is stored in the database while the application is running. However, because the schema is recreated on every startup during development, any existing data is removed whenever the application restarts.
-=======
 # # Database Storage
 
 Beginning on **Day 3**, product data is stored in PostgreSQL instead of an in-memory Python list.
@@ -284,7 +232,6 @@ The API now supports:
 All database operations are performed through SQLAlchemy and persisted in PostgreSQL while the application is running.
 
 During development, the database schema is recreated on every application startup, so existing data is cleared after each restart.
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 
 ---
 
@@ -395,33 +342,18 @@ Immediately after restarting the application, the count is expected to be **0** 
 # Project Structure
 
 ```text
-<<<<<<< HEAD
-garden_center/
-│
-├── main.py
-├── database.py
-├── models.py
-├── schemas.py
-├── requirements.txt
-└── README.md
-=======
 Butter-Fly-Effect/
 │
-├── app/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── database.py
-│   ├── models/
-│   │   └── product.py
-│   ├── schemas/
-│   │   └── product.py
-│   └── routers/
-│       └── products.py
-│
+│ ├── Product/
+│     └── product_model.py
+│     └── product_schema.py
+|
+├── main.py
+├── database.py
 ├── requirements.txt
+├── Day5-spec.md
 ├── README.md
 └── .gitignore
->>>>>>> 993293c4830c988a7063badb5e8b0f1b360f346b
 ```
 
 ---

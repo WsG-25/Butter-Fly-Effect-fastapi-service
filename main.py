@@ -1,12 +1,18 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from pathlib import Path
 
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 
 from database import (
     engine,
     Base,
-    get_db
+    get_db,
+    SessionLocal,
 )
 
 
@@ -21,8 +27,44 @@ from Product.product_schema import (
 
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Butterfly Garden Center API",
+    description="Garden center inventory — Butter-Fly-Effect project",
+)
 
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+
+
+def compact_product_ids(db: Session) -> None:
+    """Renumber products to 1..n so IDs stay sequential after deletes (demo/dev)."""
+    products = (
+        db.query(ProductModel)
+        .order_by(ProductModel.id.asc())
+        .all()
+    )
+
+    if not products:
+        db.execute(text("ALTER SEQUENCE products_id_seq RESTART WITH 1"))
+        db.commit()
+        return
+
+    temp_offset = 1_000_000
+    for product in products:
+        product.id = temp_offset + product.id
+    db.flush()
+
+    for index, product in enumerate(products, start=1):
+        product.id = index
+
+    db.commit()
+    db.execute(
+        text(
+            "SELECT setval("
+            "pg_get_serial_sequence('products', 'id'), "
+            "(SELECT COALESCE(MAX(id), 0) FROM products), true)"
+        )
+    )
+    db.commit()
 
 
 # ----------------------------
@@ -32,6 +74,12 @@ app = FastAPI()
 Base.metadata.drop_all(bind=engine)
 
 Base.metadata.create_all(bind=engine)
+
+_startup_db = SessionLocal()
+try:
+    compact_product_ids(_startup_db)
+finally:
+    _startup_db.close()
 
 
 
@@ -155,8 +203,11 @@ def get_products(
 ):
 
 
-    products = db.query(ProductModel).all()
-
+    products = (
+        db.query(ProductModel)
+        .order_by(ProductModel.id.asc())
+        .all()
+    )
 
     return products
 
@@ -278,5 +329,19 @@ def delete_product(
 
     db.commit()
 
+    compact_product_ids(db)
 
     return
+
+
+# ----------------------------
+# Website demo (static UI)
+# ----------------------------
+
+
+@app.get("/demo")
+def demo_page():
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
