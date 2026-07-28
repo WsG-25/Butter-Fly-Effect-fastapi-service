@@ -14,8 +14,13 @@ class ProductCreate(ProductBase):
 class ProductUpdate(ProductBase):
     pass
 
-class ProductResponse(ProductBase):
-    id : int
+class ProductResponse(BaseModel):
+    id: int
+    name: str
+    unit: str
+    cost_per_unit: float
+    price_per_unit: float
+    quantity_in_stock: int
 
     class Config:
         from_attributes = True
