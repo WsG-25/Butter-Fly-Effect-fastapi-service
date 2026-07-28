@@ -1,4 +1,4 @@
-# Day 4 Product API Technical Specification
+# Day 5 Product API Technical Specification
 
 ## Project: Butterfly Effect - Garden Center Inventory API
 

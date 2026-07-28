@@ -7,17 +7,17 @@ body:
   type: json
   content: "{\r
 
-    \    \"id\": 2,\r
+    \    \"id\": 3,\r
 
-    \    \"name\":\"Rose Plant\",\r
+    \    \"name\":\"Sunflower Plant\",\r
 
     \    \"unit\":\"each\",\r
 
-    \    \"cost_per_unit\":2.25,\r
+    \    \"cost_per_unit\":4.25,\r
 
-    \    \"price_per_unit\":5.99,\r
+    \    \"price_per_unit\":6.99,\r
 
-    \    \"quantity_in_stock\":22\r
+    \    \"quantity_in_stock\":21\r
 
     }"
 order: 1785169014721
