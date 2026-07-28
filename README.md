@@ -344,18 +344,14 @@ Immediately after restarting the application, the count is expected to be **0** 
 ```text
 Butter-Fly-Effect/
 │
-├── app/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── database.py
-│   ├── models/
-│   │   └── product.py
-│   ├── schemas/
-│   │   └── product.py
-│   └── routers/
-│       └── products.py
-│
+│ ├── Product/
+│     └── product_model.py
+│     └── product_schema.py
+|
+├── main.py
+├── database.py
 ├── requirements.txt
+├── Day5-spec.md
 ├── README.md
 └── .gitignore
 ```

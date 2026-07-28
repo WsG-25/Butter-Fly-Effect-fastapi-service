@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Butterfly Garden Center — Inventory Demo</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Butterfly Garden Center</h1>
+      <p> Inventory Demo </p>
+      <div class="status-bar">
+        <span class="badge" id="db-status">Database: checking…</span>
+        <span class="badge">API: <strong>/products</strong></span>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2 id="form-title">Add product</h2>
+      <form id="product-form">
+        <input type="hidden" id="product-id" value="" />
+        <div class="form-grid">
+          <label>
+            Name
+            <input type="text" id="name" name="name" required placeholder="Rose Plant" />
+          </label>
+          <label>
+            Unit
+            <select id="unit" name="unit" required>
+              <option value="each">each</option>
+              <option value="bag">bag</option>
+              <option value="box">box</option>
+              <option value="flat">flat</option>
+              <option value="lb">lb</option>
+            </select>
+          </label>
+          <label>
+            Cost per unit ($)
+            <input type="number" id="cost_per_unit" name="cost_per_unit" step="0.01" min="0.01" required
+              placeholder="5.00" />
+          </label>
+          <label>
+            Price per unit ($)
+            <input type="number" id="price_per_unit" name="price_per_unit" step="0.01" min="0.01" required
+              placeholder="10.00" />
+          </label>
+          <label>
+            Quantity in stock
+            <input type="number" id="quantity_in_stock" name="quantity_in_stock" step="1" min="0" required
+              placeholder="25" />
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="submit-btn">Save product</button>
+          <button type="button" class="btn-secondary" id="cancel-edit" hidden>
+            Cancel edit
+          </button>
+        </div>
+        <div id="form-message" class="message" role="alert"></div>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="catalog-header">
+        <h2>Product catalog</h2>
+        <p id="catalog-summary" class="catalog-summary">Loading…</p>
+      </div>
+      <div class="table-wrap">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th class="col-id">ID</th>
+              <th class="col-name">Name</th>
+              <th class="col-unit">Unit</th>
+              <th class="col-money">Cost</th>
+              <th class="col-money">Price</th>
+              <th class="col-stock">Stock</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-body">
+            <tr>
+              <td colspan="7" class="empty">Loading products…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <a href="/docs" target="_blank" rel="noopener">Open Swagger API docs</a>
+      · Butter-Fly-Effect training project
+    </footer>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+
+</html>
