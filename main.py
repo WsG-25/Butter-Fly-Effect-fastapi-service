@@ -3,17 +3,17 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 
-from app.database import (
+from database import (
     engine,
     Base,
     get_db
 )
 
 
-from app.models.product import Product as ProductModel
+from Product.product_model import Product as ProductModel
 
 
-from app.schemas.product import (
+from Product.product_schema import (
     ProductCreate,
     ProductUpdate,
     ProductResponse
@@ -42,11 +42,7 @@ Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def root():
-
-    return {
-        "message": "Garden Center API Running"
-    }
-
+    return {"message": "Welcome to the Butterfly Garden"}
 
 
 @app.get("/hello/{name}")
@@ -102,9 +98,6 @@ def db_check(
     return {
         "products_in_database": count
     }
-
-
-
 
 
 # ==================================================
