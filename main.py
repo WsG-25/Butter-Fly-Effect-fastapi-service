@@ -272,7 +272,32 @@ def update_product(
             status_code=404,
             detail="Product not found"
         )
+    product = (
+        db.query(ProductModel)
+        .filter(ProductModel.id == product_id)
+        .first()
+    )
 
+    if product is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found"
+        )
+
+    existing_product = (
+        db.query(ProductModel)
+        .filter(
+            ProductModel.name == product_update.name,
+            ProductModel.id != product_id
+        )
+        .first()
+    )
+
+    if existing_product:
+        raise HTTPException(
+            status_code=409,
+            detail="A product with that name already exists."
+        )
 
 
     product.name = product_update.name
