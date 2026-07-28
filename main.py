@@ -165,6 +165,17 @@ def create_product(
     db: Session = Depends(get_db)
 ):
 
+    existing_product = (
+    db.query(ProductModel)
+    .filter(ProductModel.name == product.name)
+    .first()
+)
+
+    if existing_product:
+        raise HTTPException(
+            status_code=409,
+            detail="A product with that name already exists."
+        )
 
     new_product = ProductModel(
 
@@ -179,7 +190,7 @@ def create_product(
         quantity_in_stock = product.quantity_in_stock
     )
 
-
+    
     db.add(new_product)
 
     db.commit()
@@ -260,23 +271,10 @@ def update_product(
 
 
     product = (
-        db.query(ProductModel)
-        .filter(ProductModel.id == product_id)
-        .first()
-    )
-
-
-    if product is None:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Product not found"
-        )
-    product = (
-        db.query(ProductModel)
-        .filter(ProductModel.id == product_id)
-        .first()
-    )
+    db.query(ProductModel)
+    .filter(ProductModel.id == product_id)
+    .first()
+)
 
     if product is None:
         raise HTTPException(
