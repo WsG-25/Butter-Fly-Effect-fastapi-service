@@ -260,23 +260,10 @@ def update_product(
 
 
     product = (
-        db.query(ProductModel)
-        .filter(ProductModel.id == product_id)
-        .first()
-    )
-
-
-    if product is None:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Product not found"
-        )
-    product = (
-        db.query(ProductModel)
-        .filter(ProductModel.id == product_id)
-        .first()
-    )
+    db.query(ProductModel)
+    .filter(ProductModel.id == product_id)
+    .first()
+)
 
     if product is None:
         raise HTTPException(
