@@ -42,3 +42,5 @@ def test_get_product_not_found():
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Product not found"
+
+    
