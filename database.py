@@ -1,8 +1,12 @@
+import os
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+load_dotenv()
 
-DATABASE_URL = "postgresql+psycopg2://postgres:root@localhost:5433/Butterfly-effect"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 
