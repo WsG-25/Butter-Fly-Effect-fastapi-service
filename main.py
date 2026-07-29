@@ -226,6 +226,7 @@ def get_products(
 
 
 
+
 # READ SINGLE PRODUCT
 @app.get(
     "/products/{product_id}",

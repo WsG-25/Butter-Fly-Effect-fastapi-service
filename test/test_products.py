@@ -102,7 +102,7 @@ class TestpProduct:
 
 
     def test_delete_product_not_found(self):
-
+        #
         response = client.delete("/products/99999")
         assert response.status_code == 404
         data = response.json()
@@ -122,11 +122,9 @@ class TestpProduct:
                 "quantity_in_stock": 10
             }
         )
-
         assert create_response.status_code == 201
 
         product_id = create_response.json()["id"]
-
 
         # Delete the product
         response = client.delete(f"/products/{product_id}")
