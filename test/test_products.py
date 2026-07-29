@@ -146,3 +146,36 @@ def test_update_product():
     assert product["id"] == product_id
     assert product["name"] == "Blue Lotus"
     assert product["quantity_in_stock"] == 999
+
+
+def test_delete_product_not_found():
+        #
+    response = client.delete("/products/99999")
+    assert response.status_code == 404
+    data = response.json()
+
+    assert data["detail"] == "Product not found"
+
+
+def test_delete_product():
+    # Creating test product
+    create_response = client.post(
+        "/products",
+        json={
+            "name": "Delete Test Plant",
+            "unit": "each",
+            "cost_per_unit": 2.99,
+            "price_per_unit": 5.99,
+            "quantity_in_stock": 10
+        }
+    )
+    assert create_response.status_code == 201
+
+    product_id = create_response.json()["id"]
+
+    # Delete the product
+    response = client.delete(f"/products/{product_id}")
+    assert response.status_code == 204
+    get_response = client.get(f"/products/{product_id}")
+    assert get_response.status_code == 404
+
