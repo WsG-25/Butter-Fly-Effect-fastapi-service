@@ -22,5 +22,5 @@ class ProductResponse(BaseModel):
     price_per_unit: float
     quantity_in_stock: int
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
