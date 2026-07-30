@@ -29,6 +29,7 @@ class ProductResponse(BaseModel):
     cost_per_unit: float
     price_per_unit: float
     quantity_in_stock: int
+    category: CategoryInfo
 
     class ConfigDict:
         from_attributes = True

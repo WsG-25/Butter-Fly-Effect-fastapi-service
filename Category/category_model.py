@@ -1,6 +1,5 @@
-
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 
@@ -8,11 +7,9 @@ from database import Base
 class Category(Base):
     __tablename__ = "categories"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False, unique=True)
+    id: Mapped[int] = mapped_column( Integer, primary_key=True, autoincrement=True, index=True,)
+
+    name: Mapped[str] = mapped_column( String, nullable=False, unique=True,)
 
     # One category can have many products
-    products = relationship(
-        "Product",
-        back_populates="category"
-    )
+    products: Mapped[list["products"]] = relationship( "Product", back_populates="category",)
