@@ -1,0 +1,23 @@
+$kind: http-request
+name: http://127.0.0.1:8000/products/
+description: ""
+url: http://127.0.0.1:8000/products/
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Sunflower\",\r
+
+    \    \"unit\": \"pack\",\r
+
+    \    \"cost_per_unit\": 2.50,\r
+
+    \    \"price_per_unit\": 4.99,\r
+
+    \    \"quantity_in_stock\": 15,\r
+
+    \    \"category_id\": 1\r
+
+    }"
+order: 3613015329346973

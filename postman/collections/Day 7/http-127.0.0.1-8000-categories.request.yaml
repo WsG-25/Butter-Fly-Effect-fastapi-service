@@ -1,0 +1,9 @@
+$kind: http-request
+name: http://127.0.0.1:8000/categories
+description: ""
+url: http://127.0.0.1:8000/categories
+method: POST
+body:
+  type: json
+  content: "{\r\n    \"name\": \"Plants\"\r\n}"
+order: 1785436176504
