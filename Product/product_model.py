@@ -1,6 +1,5 @@
-from sqlalchemy import Float, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
-
+from sqlalchemy import Float, Integer, String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column,relationship
 from database import Base
 
 class Product(Base):
@@ -17,3 +16,7 @@ class Product(Base):
     price_per_unit: Mapped[float] = mapped_column(Float, nullable=False)
 
     quantity_in_stock: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    category_id: Mapped[int] = mapped_column( ForeignKey("categories.id"))
+
+    category = relationship( "Category", back_populates="products")
