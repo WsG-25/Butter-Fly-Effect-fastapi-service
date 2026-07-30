@@ -9,10 +9,18 @@ class ProductBase(BaseModel):
     quantity_in_stock: int = Field(ge=0)
 
 class ProductCreate(ProductBase):
-    pass
-
+    category_id: int
+    
 class ProductUpdate(ProductBase):
-    pass
+    category_id: int
+
+class CategoryInfo(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
+
 
 class ProductResponse(BaseModel):
     id: int
@@ -21,6 +29,7 @@ class ProductResponse(BaseModel):
     cost_per_unit: float
     price_per_unit: float
     quantity_in_stock: int
+    category: CategoryInfo
 
     class ConfigDict:
         from_attributes = True

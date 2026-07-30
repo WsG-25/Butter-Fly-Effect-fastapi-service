@@ -17,6 +17,7 @@ from database import (
 
 
 from Product.product_model import Product as ProductModel
+from Category.category_model import Category as CategoryModel
 
 
 from Product.product_schema import (
@@ -25,6 +26,11 @@ from Product.product_schema import (
     ProductResponse
 )
 
+from Category.category_schema import (
+    CategoryCreate,
+    CategoryResponse,
+    CategoryWithProducts,
+)
 
 
 app = FastAPI(
@@ -49,6 +55,7 @@ def compact_product_ids(db: Session) -> None:
         return
 
     temp_offset = 1_000_000
+
     for product in products:
         product.id = temp_offset + product.id
     db.flush()
@@ -149,71 +156,106 @@ def db_check(
 
 
 # ==================================================
-# Day 4 REAL CRUD USING POSTGRES
+# CATEGORY ENDPOINTS
 # ==================================================
 
+@app.post(
+    "/categories",
+    response_model=CategoryResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_category(
+    category: CategoryCreate,
+    db: Session = Depends(get_db),
+):
+    existing_category = (
+        db.query(CategoryModel)
+        .filter(CategoryModel.name == category.name)
+        .first()
+    )
+
+    if existing_category:
+        raise HTTPException(
+            status_code=409,
+            detail="Category already exists.",
+        )
+
+    new_category = CategoryModel(
+        name=category.name
+    )
+
+    db.add(new_category)
+    db.commit()
+    db.refresh(new_category)
+
+    return new_category
 
 
-# CREATE PRODUCT
+# ==================================================
+# PRODUCT CRUD
+# ==================================================
+
 @app.post(
     "/products",
     response_model=ProductResponse,
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
 )
 def create_product(
     product: ProductCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
 
     existing_product = (
-    db.query(ProductModel)
-    .filter(ProductModel.name == product.name)
-    .first()
-)
+        db.query(ProductModel)
+        .filter(ProductModel.name == product.name)
+        .first()
+    )
 
     if existing_product:
         raise HTTPException(
             status_code=409,
-            detail="A product with that name already exists."
+            detail="A product with that name already exists.",
+        )
+
+    category = (
+        db.query(CategoryModel)
+        .filter(CategoryModel.id == product.category_id)
+        .first()
+    )
+
+    if category is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Category not found.",
         )
 
     new_product = ProductModel(
-
-        name = product.name,
-
-        unit = product.unit,
-
-        cost_per_unit = product.cost_per_unit,
-
-        price_per_unit = product.price_per_unit,
-
-        quantity_in_stock = product.quantity_in_stock
+        name=product.name,
+        unit=product.unit,
+        cost_per_unit=product.cost_per_unit,
+        price_per_unit=product.price_per_unit,
+        quantity_in_stock=product.quantity_in_stock,
+        category_id=product.category_id,
     )
 
-    
     db.add(new_product)
-
     db.commit()
-
     db.refresh(new_product)
-
 
     return new_product
 
 
-
-
-
+# ==================================================
 # READ ALL PRODUCTS
+# ==================================================
+
 @app.get(
     "/products",
     response_model=list[ProductResponse]
 )
 def get_products(
-    db:Session = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-
-
     products = (
         db.query(ProductModel)
         .order_by(ProductModel.id.asc())
@@ -223,59 +265,51 @@ def get_products(
     return products
 
 
-
-
-
-
+# ==================================================
 # READ SINGLE PRODUCT
+# ==================================================
+
 @app.get(
     "/products/{product_id}",
     response_model=ProductResponse
 )
 def get_product(
-    product_id:int,
-    db:Session = Depends(get_db)
+    product_id: int,
+    db: Session = Depends(get_db)
 ):
-
-
     product = (
         db.query(ProductModel)
         .filter(ProductModel.id == product_id)
         .first()
     )
 
-
     if product is None:
-
         raise HTTPException(
             status_code=404,
             detail="Product not found"
         )
 
-
     return product
 
 
-
-
-
+# ==================================================
 # UPDATE PRODUCT
+# ==================================================
+
 @app.put(
     "/products/{product_id}",
     response_model=ProductResponse
 )
 def update_product(
-    product_id:int,
-    product_update:ProductUpdate,
-    db:Session = Depends(get_db)
+    product_id: int,
+    product_update: ProductUpdate,
+    db: Session = Depends(get_db)
 ):
-
-
     product = (
-    db.query(ProductModel)
-    .filter(ProductModel.id == product_id)
-    .first()
-)
+        db.query(ProductModel)
+        .filter(ProductModel.id == product_id)
+        .first()
+    )
 
     if product is None:
         raise HTTPException(
@@ -298,59 +332,56 @@ def update_product(
             detail="A product with that name already exists."
         )
 
+    category = (
+        db.query(CategoryModel)
+        .filter(CategoryModel.id == product_update.category_id)
+        .first()
+    )
+
+    if category is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Category not found."
+        )
 
     product.name = product_update.name
-
     product.unit = product_update.unit
-
     product.cost_per_unit = product_update.cost_per_unit
-
     product.price_per_unit = product_update.price_per_unit
-
     product.quantity_in_stock = product_update.quantity_in_stock
-
-
+    product.category_id = product_update.category_id
 
     db.commit()
-
     db.refresh(product)
-
 
     return product
 
 
-
-
-
+# ==================================================
 # DELETE PRODUCT
+# ==================================================
+
 @app.delete(
     "/products/{product_id}",
     status_code=status.HTTP_204_NO_CONTENT
 )
 def delete_product(
-    product_id:int,
-    db:Session = Depends(get_db)
+    product_id: int,
+    db: Session = Depends(get_db)
 ):
-
-
     product = (
         db.query(ProductModel)
         .filter(ProductModel.id == product_id)
         .first()
     )
 
-
     if product is None:
-
         raise HTTPException(
             status_code=404,
             detail="Product not found"
         )
 
-
-
     db.delete(product)
-
     db.commit()
 
     compact_product_ids(db)
@@ -358,14 +389,44 @@ def delete_product(
     return
 
 
-# ----------------------------
-# Website demo (static UI)
-# ----------------------------
+# ==================================================
+# GET CATEGORY WITH PRODUCTS
+# ==================================================
 
+@app.get(
+    "/categories/{category_id}",
+    response_model=CategoryWithProducts
+)
+def get_category(
+    category_id: int,
+    db: Session = Depends(get_db)
+):
+    category = (
+        db.query(CategoryModel)
+        .filter(CategoryModel.id == category_id)
+        .first()
+    )
+
+    if category is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Category not found"
+        )
+
+    return category
+
+
+# ----------------------------
+# Website demo
+# ----------------------------
 
 @app.get("/demo")
 def demo_page():
     return FileResponse(STATIC_DIR / "index.html")
 
 
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=STATIC_DIR),
+    name="static",
+)

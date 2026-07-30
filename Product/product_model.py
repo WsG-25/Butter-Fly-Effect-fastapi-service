@@ -17,10 +17,6 @@ class Product(Base):
 
     quantity_in_stock: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    category_id: Mapped[int] = mapped_column(
-        ForeignKey("categories.id")
-    )
-    category = relationship(
-        "Category",
-        back_populates="products"
-    )
+    category_id: Mapped[int] = mapped_column( ForeignKey("categories.id"))
+
+    category = relationship( "Category", back_populates="products")

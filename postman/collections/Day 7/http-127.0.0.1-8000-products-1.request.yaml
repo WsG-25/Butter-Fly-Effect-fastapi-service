@@ -1,0 +1,23 @@
+$kind: http-request
+name: http://127.0.0.1:8000/products/1
+description: ""
+url: http://127.0.0.1:8000/products/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Red Rose Plant\",\r
+
+    \    \"unit\": \"each\",\r
+
+    \    \"cost_per_unit\": 4.50,\r
+
+    \    \"price_per_unit\": 7.25,\r
+
+    \    \"quantity_in_stock\": 30,\r
+
+    \    \"category_id\": 1\r
+
+    }"
+order: 4487341810638692
