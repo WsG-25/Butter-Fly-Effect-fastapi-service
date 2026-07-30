@@ -149,7 +149,9 @@ def test_update_product():
 
 
 def test_delete_product_not_found():
+    """
         #
+    """
     response = client.delete("/products/99999")
     assert response.status_code == 404
     data = response.json()
@@ -158,7 +160,9 @@ def test_delete_product_not_found():
 
 
 def test_delete_product():
+    """
     # Creating test product
+    """
     create_response = client.post(
         "/products",
         json={
@@ -172,8 +176,10 @@ def test_delete_product():
     assert create_response.status_code == 201
 
     product_id = create_response.json()["id"]
-
+    
+    """
     # Delete the product
+    """
     response = client.delete(f"/products/{product_id}")
     assert response.status_code == 204
     get_response = client.get(f"/products/{product_id}")
